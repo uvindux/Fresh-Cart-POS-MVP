@@ -1,20 +1,36 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package fresh.cart.pos;
 
-/**
- *
- * @author Uvindu manohara
- */
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+
 public class FreshCartPOS {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        try {
+            String SQL = "Select * from customer";
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String url = "jdbc:mysql://localhost:3306/thogakade";
+            String username = "root";
+            String password = ""; // leave empty if no password in XAMPP
+            Connection conn = DriverManager.getConnection(url, username, password);
+            Statement stm = conn.createStatement();
+            ResultSet rst=stm.executeQuery(SQL);
+            while (rst.next()){
+                String id=rst.getString("id");
+                String name  =rst.getString("name");
+                String address=rst.getString("address");
+                double salary=rst.getDouble("salary");
+                System.out.println(id+"\t"+name+"\t"+address+"\t"+salary);
+            }
+
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Driver S/W not found");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+
+        }
     }
-    
 }
